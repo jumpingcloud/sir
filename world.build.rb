@@ -34,25 +34,89 @@ class World
     end  
   end
 
-  def solution
+  def points
     # make random start and end points
     puts "this is the solution"
     # puts @map
     # puts @map[1][1]
-    endy = rand(25) 
-    endx = rand(55)
-    @map[endy][endx] = "x"
-    puts @map
+    @endy = rand(25) 
+    @endx = rand(55)
+    @map[@endy][@endx] = "#"
+    @starty = rand(25)
+    @startx = rand(55)
+    @map[@starty][@startx] = '"'
+
+    @end_point = @map[@endy][@endx]
+    @start_point = @map[@starty][@startx]
+
+      # puts @map
   end
 
+  def solution
+    # @map[starty][startx]
+
+    endofgemsx = @endx + 1
+    endofgemsy = @endy + 1
+    endofgemsplusy = @endy - 1
+    endofgemsplusx = @endx
+    #start = '"'
+    if @starty < @endy
+      puts "gems   #{endofgemsplusy}"
+      puts "start   #{@starty}"
+
+      until @starty == endofgemsplusy do
+        puts "going down"
+        @starty += 1
+        @map[@starty][@startx] = "x"
+      end
+    
+    elsif @starty > @endy
+      until @starty == endofgemsy do
+        puts "going up"
+        @starty -= 1
+        @map[@starty][@startx] = "x"
+      end
+      
+    end
+
+    if @startx < @endx
+      puts "gems   #{endofgemsplusy}"
+      puts "start   #{@starty}"
+
+      until @startx == endofgemsplusx do
+        puts "going right"
+        @startx += 1
+        @map[@starty][@startx] = "x"
+      end
+    
+    elsif @starty > @endy
+      until @startx == endofgemsx do
+        puts "going left"
+        @startx -= 1
+        @map[@starty][@startx] = "x"
+      end
+      
+    end
+      
+    puts @map
+  end 
 
   def mazeify
     #create a maze in the field of dots
 
+  end
+  def write
+    puts @map
+    puts "maps is putted"
+    File.open("maze.txt", "w") do |f|
+  f.puts(@map)
+    end
   end
 
 end
 
 
 trink = World.new
+trink.points
 trink.solution
+trink.write
